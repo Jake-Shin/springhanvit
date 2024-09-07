@@ -3,7 +3,7 @@ resources 폴더 밑에 application.properties 파일 만들어야 함
 spring.application.name=hancom
 spring.mvc.view.suffix=.html
 
-# database
+database
 spring.datasource.url: jdbc:mariadb://localhost:3306/hanvitHancom?characterEncoding=utf8
 spring.datasource.username: 아이디
 spring.datasource.password: 비밀번호
