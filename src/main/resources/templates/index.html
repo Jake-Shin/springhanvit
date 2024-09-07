@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한빛청년부 통성경</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .bible-story-section {
+            background-color: #e8e8e8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            font-family: Freesentation, Arial, sans-serif;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            max-width: 375px; /* Fit within the screen width */
+        }
+
+        .subtitle, .title {
+            color: #2C2C2C;
+            text-align: center;
+            margin-bottom: 1px;
+        }
+
+        .subtitle {
+            font-size: 18px; /* Smaller font for smaller screens */
+            font-weight: 300;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 0px;
+        }
+
+        .sentence-box, .userInput, .next-sentence {
+            border-radius: 8px;
+            margin-top: 10px;
+            padding: 10px 15px;
+        }
+        
+
+        .sentence-box {
+            background-color: #14AE5E;
+            color: #FFF;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .userInput {
+            background-color: #FBF7FF;
+            border: 2px solid #14AE5E;
+            color: #000;
+            width: 100%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+
+        .userNameInput {
+            border-radius: 8px;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #FBF7FF;
+            border: 2px solid #14AE5E;
+            color: #000;
+            width: 20%;
+            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+
+        .next-sentence {
+            background-color: #FFF;
+            color: #888;
+            font-size: 14px;
+            min-height: 25px;
+            line-height: 1.4;
+        }
+
+        .incorrect {
+            color: #FE4932;
+        }
+
+        .progress-bar-container {
+            margin-top: 20px;
+            width: 100%;
+            height: 50px;
+            background-color: #e0e0e0;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #14AE5E;
+            width: 0%; /* Default width */
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: #FFFFFF;
+        }
+
+        /* Media queries for larger screens */
+        @media (min-width: 768px) {
+            .content-wrapper {
+                max-width: 500px; /* Adjust for tablets */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .content-wrapper {
+                max-width: 800px; /* Adjust for desktop */
+            }
+
+            .title {
+                font-size: 36px;
+            }
+
+            .sentence-box, .userInput, .next-sentence {
+                font-size: 18px;
+            }
+        }
+        body {
+            background-color: #e8e8e8;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        /* 타자 연습 시작 버튼 스타일 */
+        button {
+            background-color: #14AE5E;
+            color: white;
+            font-size: 18px;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #732d91; /* 호버 시 색상 변경 */
+        }
+        button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+<body>
+    <section class="bible-story-section">
+        <div class="content-wrapper">
+            <h2 class="subtitle">한빛청년부 통성경</h2>
+            <h1 class="title">10분에 성경 전체 이야기</h1>
+
+            <div style="text-align: right;">
+                <input type="text" id="userName" class="userNameInput"/>
+                <button onclick="checkName()">시작</button>
+            </div>
+    
+            <!-- 현재 문장을 표시하는 박스 -->
+            <div class="sentence-box" id="sentence"></div>
+    
+            <!-- 사용자 입력 -->
+            <input type="text" id="userInput" class="userInput" placeholder="문장을 입력하세요."/>
+    
+            <!-- 다음 문장 미리보기 박스 -->
+            <div id="nextSentence1" class="next-sentence"></div>
+            <div id="nextSentence2" class="next-sentence"></div>
+            <div id="nextSentence3" class="next-sentence"></div>
+
+            <!-- 진행률 막대기 -->
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const sentences = [
+            "우리가 사도행전 7장의 스데반처럼 성경 전체를 틀리지 않게, 치우치지 않게, 선을 넘지 않고,", 
+            "사람들 앞에서 10분 안에 이야기한다면 하나님께서 얼마나 기뻐하실까요?"
+            ];
+
+        let currentSentenceIndex = 0;
+        let startTime, endTime, timeTaken;
+        let checkFlag = false;
+
+        const sentenceElement = document.getElementById('sentence');
+        const inputElement = document.getElementById('userInput');
+        const nextSentence1 = document.getElementById('nextSentence1');
+        const nextSentence2 = document.getElementById('nextSentence2');
+        const nextSentence3 = document.getElementById('nextSentence3');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+
+
+        function displaySentences() {
+            // 첫 번째 문장 표시
+            sentenceElement.innerText = sentences[currentSentenceIndex] || "";
+            // 다음 3개의 문장 표시
+            nextSentence1.innerText = sentences[currentSentenceIndex + 1] || "";
+            nextSentence2.innerText = sentences[currentSentenceIndex + 2] || "";
+            nextSentence3.innerText = sentences[currentSentenceIndex + 3] || "";
+            // 진행률 업데이트
+            updateProgress();
+            inputElement.value = ''; // 입력 필드를 비움
+        }
+
+        function updateProgress() {
+            const progress = ((currentSentenceIndex + 1) / sentences.length) * 100;
+            progressBar.style.width = `${progress}%`;  // 막대기 너비 설정
+            progressText.innerText = `${progress.toFixed(2)}%`;  // 진행률 텍스트 업데이트
+        }
+
+
+        // 입력값 비교 및 색상 표시
+        inputElement.addEventListener('input', function () {
+            const typedText = inputElement.value;
+            const currentSentence = sentences[currentSentenceIndex];
+
+            let highlightedText = '';
+            let isCorrect = true;
+
+            // 이름 넣었는지 확인
+            if(checkFlag) {
+                // nothing to do.
+            } else {
+                alert("이름을 입력해 주세요");
+                document.getElementById('userName').focus();
+            }
+
+            for (let i = 0; i < currentSentence.length; i++) {
+                if (typedText[i] === currentSentence[i]) {
+                    highlightedText += currentSentence[i];  // 올바른 부분은 그대로 표시
+                } else if (typedText[i] !== undefined) {
+                    highlightedText += `<span class="incorrect">${currentSentence[i]}</span>`;  // 틀린 부분은 빨간색
+                    isCorrect = false;
+                } else {
+                    highlightedText += currentSentence[i];  // 아직 입력되지 않은 부분은 그대로 표시
+                }
+            }
+
+            sentenceElement.innerHTML = highlightedText;
+
+
+        });
+
+        // 엔터로 문장 전환
+        inputElement.addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                const typedText = inputElement.value;
+                const currentSentence = sentences[currentSentenceIndex];
+
+                if (typedText === currentSentence) {
+                    currentSentenceIndex++;
+                    if (currentSentenceIndex < sentences.length) {
+                        displaySentences();
+                        inputElement.value = '';  // 입력 필드 비움
+                    } else {
+                        sentenceElement.textContent = "모든 문장을 완료했습니다!";
+                        inputElement.disabled = true;  // 모든 문장을 완료하면 입력 비활성화
+                        endTime = new Date(); // 타자 연습 끝난 시간 기록
+                        timeTaken = (endTime - startTime) / 1000; // 걸린 시간(초 단위)
+                        insertUser();
+                    }
+                }
+            }
+        });
+        
+        function checkName() {
+            const arr = ['신현진', '신승훈'];
+            let name = document.getElementById('userName').value;
+            if (arr.includes(name)) {
+                // 이름이 있을 때
+                $("#userName").css("background-color", "#9f9f9f");
+                document.getElementById('userName').disabled = true;
+                checkFlag = true;
+                startTime = new Date(); // 타자 연습 시작 시간 기록
+            } else {
+                // 이름이 없을 때
+                alert("정확한 본인의 이름을 입력해 주세요.");
+                document.getElementById('userName').focus();
+            }
+
+        }
+
+        function insertUser() {
+            var form = {
+                name: document.getElementById('userName').value,
+                completionTime: timeTaken
+            }
+            $.ajax({
+                type: "POST"
+                , url: "/insert"
+                , data: form
+                , success: function(data) {
+                    console.log(data);
+                    console.log(data);
+                }
+                , error: function(e) {
+                    
+                }
+            });
+        };
+
+        function selectUser() {
+            $.ajax({
+                type: "GET"
+                , url: "/user"
+                , success: function(data) {
+                    console.log(data);
+                    console.log(data);
+                }
+                , error: function(e) {
+                }
+            });
+        }
+
+        // 페이지 로드 시 첫 문장과 다음 문장 3개를 표시
+        window.onload = function() {
+            displaySentences();
+            selectUser();
+        };
+    </script>
+</body>
+</html>

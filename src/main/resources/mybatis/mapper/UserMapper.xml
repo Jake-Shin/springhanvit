@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hanvit.hancom.Dao.UserMapper">
+  <select id="getUserList" resultType="com.hanvit.hancom.Dto.User">
+    SELECT
+        name, MIN(COMPLETIONTIME) completionTime, create_datetime 
+    FROM
+        HANCOM
+    GROUP BY
+        name
+    ORDER BY 
+        CAST(COMPLETIONTIME AS FLOAT) ASC
+    LIMIT 0,5
+  </select>
+
+  <insert id="insertUserTime" parameterType="com.hanvit.hancom.Dto.User">
+        INSERT INTO hancom
+            (name, completionTime)
+        VALUES
+            (#{name}, #{completionTime})
+  </insert>
+</mapper>
