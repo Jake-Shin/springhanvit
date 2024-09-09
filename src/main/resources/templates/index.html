@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     <title>한빛청년부 통성경</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: "Noto Sans KR", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
         }
 
         .bible-story-section {
@@ -17,12 +25,10 @@
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            font-family: Freesentation, Arial, sans-serif;
         }
 
         .content-wrapper {
             width: 100%;
-            max-width: 375px; /* Fit within the screen width */
         }
 
         .subtitle, .title {
@@ -33,7 +39,6 @@
 
         .subtitle {
             font-size: 18px; /* Smaller font for smaller screens */
-            font-weight: 300;
         }
 
         .title {
@@ -41,6 +46,29 @@
             font-weight: 600;
             margin-top: 0px;
         }
+        .title .point{
+            position: relative;
+            display: inline-block;
+        }
+        .title .point:after{
+            position: absolute;
+            bottom:-2px;
+            left:0;
+            content: '';
+            --a: 90deg; /* control the angle */
+            --s: 10px; /* size of the zig-zag */
+            --b: 4px;  /* control the thickness */
+            
+            background: red;
+            height: calc(var(--b) + var(--s)/(2*tan(var(--a)/2)));
+            width: 100%;
+            --_g:var(--s) repeat-x conic-gradient(from calc(var(--a)/-2) at bottom,
+                #0000,#000 1deg calc(var(--a) - 1deg),#0000 var(--a));
+            mask: 50% calc(-1*var(--b))/var(--_g) exclude,50%/var(--_g);
+
+        }
+
+    
 
         .sentence-box, .userInput, .next-sentence {
             border-radius: 8px;
@@ -67,14 +95,20 @@
             -moz-box-sizing: border-box;
         }
 
+        .namebox{
+            display: flex;
+            align-items: center;
+            justify-content: end;
+            margin-top:20px;
+        }
+
         .userNameInput {
             border-radius: 8px;
-            margin-top: 10px;
             padding: 10px 15px;
+            margin-right:5px;
             background-color: #FBF7FF;
             border: 2px solid #14AE5E;
             color: #000;
-            width: 20%;
             box-sizing: border-box;
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
@@ -98,12 +132,14 @@
             height: 50px;
             background-color: #e0e0e0;
             position: relative;
+            border-radius: 8px;
         }
 
         .progress-bar {
             height: 100%;
             background-color: #14AE5E;
             width: 0%; /* Default width */
+            border-radius: 8px;
         }
 
         .progress-text {
@@ -114,6 +150,42 @@
             font-size: 20px;
             color: #FFFFFF;
         }
+
+        .ranking{
+            background:#fff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin-top:20px;
+            box-shadow: 5px 5px 5px 0px #ddd;
+        }
+
+        .ranking h3{
+            margin:10px 0 20px 0px;
+            font-size:36px;
+            text-align: center;
+        }
+
+        .ranking-table{
+            width:100%;
+            border-spacing: 0px;
+        }
+
+        .ranking-table thead{
+            background:#14AE5E;
+        }
+
+        .ranking-table thead tr th{
+            color:#fff;
+            padding:5px 10px;
+            font-weight: 400;
+        }
+
+        .ranking-table tbody tr td{
+            padding:10px;
+            text-align: center;
+        }
+
+
 
         /* Media queries for larger screens */
         @media (min-width: 768px) {
@@ -154,7 +226,7 @@
             transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #732d91; /* 호버 시 색상 변경 */
+            background-color: #066031; /* 호버 시 색상 변경 */
         }
         button:focus {
             outline: none;
@@ -167,9 +239,10 @@
     <section class="bible-story-section">
         <div class="content-wrapper">
             <h2 class="subtitle">한빛청년부 통성경</h2>
-            <h1 class="title">10분에 성경 전체 이야기</h1>
+            <h1 class="title"><span class="point">10분</span>에 성경 전체 이야기</h1>
+            <div class="zig-zag-line"></div>
 
-            <div style="text-align: right;">
+            <div class="namebox">
                 <input type="text" id="userName" class="userNameInput"/>
                 <button onclick="checkName()">시작</button>
             </div>
@@ -189,6 +262,50 @@
             <div class="progress-bar-container">
                 <div class="progress-bar" id="progressBar"></div>
                 <div class="progress-text" id="progressText">0%</div>
+            </div>
+            <!-- 랭킹 -->
+            <div class="ranking">
+                <h3>랭킹</h3>
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>순위</th>
+                            <th>이름</th>
+                            <th>걸린 시간</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rankingList">
+                        <!-- 랭킹 데이터는 JavaScript로 동적으로 채워집니다 -->
+                         <tr>
+                            <th class="">
+                                <span class="material-symbols-outlined" style="color:#D5A11E"> family_star </span>
+                            </th>
+                            <td>신현진</td>
+                            <td>19.272</td>
+                         </tr>
+                         <tr>
+                            <th class="">
+                                <span class="material-symbols-outlined" style="color:#A3A3A3"> family_star </span>
+                            </th>
+                            <td>신현진</td>
+                            <td>19.272</td>
+                         </tr>
+                         <tr>
+                            <th class="">
+                                <span class="material-symbols-outlined" style="color:#CD7F32"> family_star </span>
+                            </th>
+                            <td>신현진</td>
+                            <td>19.272</td>
+                         </tr>
+                         <tr></tr>
+                            <th class="">
+                                4
+                            </th>
+                            <td>신현진</td>
+                            <td>19.272</td>
+                         </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
