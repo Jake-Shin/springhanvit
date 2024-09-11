@@ -3,285 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/src/main/resources/static/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/src/main/resources/static/css/index.css" />
     <title>한빛청년부 통성경</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Noto Sans KR", sans-serif;
-            font-optical-sizing: auto;
-            font-weight: 400;
-            font-style: normal;
-        }
-
-        .bible-story-section {
-            background-color: #e8e8e8;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .content-wrapper {
-            width: 100%;
-        }
-
-        .subtitle, .title {
-            color: #2C2C2C;
-            text-align: center;
-            margin-bottom: 1px;
-        }
-
-        .subtitle {
-            font-size: 18px; /* Smaller font for smaller screens */
-        }
-
-        .title {
-            font-size: 28px;
-            font-weight: 600;
-            margin-top: 0px;
-        }
-        .title .point{
-            position: relative;
-            display: inline-block;
-        }
-        .title .point:after{
-            position: absolute;
-            bottom:-2px;
-            left:0;
-            content: '';
-            --a: 90deg; /* control the angle */
-            --s: 10px; /* size of the zig-zag */
-            --b: 4px;  /* control the thickness */
-            
-            background: red;
-            height: calc(var(--b) + var(--s)/(2*tan(var(--a)/2)));
-            width: 100%;
-            --_g:var(--s) repeat-x conic-gradient(from calc(var(--a)/-2) at bottom,
-                #0000,#000 1deg calc(var(--a) - 1deg),#0000 var(--a));
-            mask: 50% calc(-1*var(--b))/var(--_g) exclude,50%/var(--_g);
-
-        }
-
-    
-
-        .sentence-box, .userInput, .next-sentence {
-            border-radius: 8px;
-            margin-top: 10px;
-            padding: 10px 15px;
-        }
-        
-
-        .sentence-box {
-            background-color: #14AE5E;
-            color: #FFF;
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 1.5;
-        }
-
-        .userInput {
-            background-color: #fff;
-            border: 2px solid #14AE5E;
-            color: #000;
-            width: 100%;
-            box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-        }
-
-        .namebox{
-            display: flex;
-            align-items: center;
-            justify-content: end;
-            margin-top:20px;
-        }
-
-        .userNameInput {
-            border-radius: 8px;
-            padding: 10px 15px;
-            margin-right:5px;
-            background-color: #FBF7FF;
-            border: 2px solid #14AE5E;
-            color: #000;
-            box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-        }
-
-        .next-sentence {
-            background-color: #d4d4d4;
-            color: #888;
-            font-size: 14px;
-            min-height: 25px;
-            line-height: 1.4;
-        }
-
-        .incorrect {
-            color: #FE4932;
-        }
-
-        .progress-bar-container {
-            margin-top: 20px;
-            width: 100%;
-            height: 50px;
-            background-color: #e0e0e0;
-            position: relative;
-            border-radius: 8px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: #14AE5E;
-            width: 0%; /* Default width */
-            border-radius: 8px;
-        }
-
-        .progress-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 20px;
-            color: #FFFFFF;
-        }
-
-        .ranking{
-            background:#fff;
-            border-radius: 8px;
-            padding: 10px 15px;
-            margin-top:20px;
-            box-shadow: 5px 5px 5px 0px #ddd;
-        }
-
-        .ranking h3{
-            margin:10px 0 20px 0px;
-            font-size:36px;
-            text-align: center;
-        }
-
-        .ranking-table{
-            width:100%;
-            border-spacing: 0px;
-        }
-
-        .ranking-table thead{
-            background:#14AE5E;
-        }
-
-        .ranking-table thead tr th{
-            color:#fff;
-            padding:5px 10px;
-            font-weight: 400;
-        }
-
-        .ranking-table tbody tr td{
-            padding:10px;
-            text-align: center;
-        }
-
-
-
-        /* Media queries for larger screens */
-        @media (min-width: 768px) {
-            .content-wrapper {
-                max-width: 500px; /* Adjust for tablets */
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .content-wrapper {
-                max-width: 800px; /* Adjust for desktop */
-            }
-
-            .title {
-                font-size: 36px;
-            }
-
-            .sentence-box, .userInput, .next-sentence {
-                font-size: 18px;
-            }
-        }
-        body {
-            background-color: #e8e8e8;
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-
-        /* 타자 연습 시작 버튼 스타일 */
-        button {
-            background-color: #14AE5E;
-            color: white;
-            font-size: 18px;
-            padding: 8px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #066031; /* 호버 시 색상 변경 */
-        }
-        button:focus {
-            outline: none;
-        }
-    </style>
 </head>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-
 <body>
     <section class="bible-story-section">
         <div class="content-wrapper">
             <h2 class="subtitle">한빛청년부 통성경</h2>
-            <h1 class="title"><span class="point">10분</span>에 성경 전체 이야기</h1>
+            <h1 class="title">10분에 성경 전체 이야기</h1>
             <div class="zig-zag-line"></div>
 
             <div class="namebox">
-                <input type="text" id="userName" class="userNameInput" placeholder="이름"/>
-                <button onclick="checkName()">시작</button>
+                <div class="textbox">
+                    <input type="text" id="userName" class="userNameInput" placeholder="이름을 입력해주세요. (예: 신현진)"/>
+                </div>
+                <button id="userClick" onclick="checkName()">버튼 눌러서 타자연습 시작하기</button>
             </div>
-    
-            <!-- 현재 문장을 표시하는 박스 -->
-            <div class="sentence-box" id="sentence"></div>
-    
-            <!-- 사용자 입력 -->
-            <input type="text" id="userInput" class="userInput" placeholder="문장을 입력하세요."/>
-    
-            <!-- 다음 문장 미리보기 박스 -->
-            <div id="nextSentence1" class="next-sentence"></div>
-            <div id="nextSentence2" class="next-sentence"></div>
-            <div id="nextSentence3" class="next-sentence"></div>
+            
+            <div id="whiteBox" class="shadowbox afterbox"> <!-- afterbox class 빼면 투명막 사라짐 -->
+                <!-- 현재 문장을 표시하는 박스 -->
+                <div class="sentence-box" id="sentence"></div>
+                <!-- 사용자 입력 -->
+                <input type="text" id="userInput" class="userInput" placeholder="문장을 입력하세요."/>
+                <!-- 다음 문장 미리보기 박스 -->
+                <div id="nextSentence1" class="next-sentence"></div>
+                <div id="nextSentence2" class="next-sentence"></div>
+                <div id="nextSentence3" class="next-sentence"></div>
+                <!-- 진행률 막대기 -->
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+            </div>
 
-            <!-- 진행률 막대기 -->
-            <div class="progress-bar-container">
-                <div class="progress-bar" id="progressBar"></div>
-                <div class="progress-text" id="progressText">0%</div>
-            </div>
             <!-- 랭킹 -->
             <div class="ranking">
-                <h3>랭킹</h3>
                 <table class="ranking-table">
+                    <colgroup>
+                        <col width="20%">
+                        <col width="20%">
+                        <col width="40%">
+                        <col width="20%">
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>순위</th>
                             <th>이름</th>
-                            <th>걸린 시간</th>
+                            <th>속도</th>
+                            <th>완료 횟수 </th>
                         </tr>
                     </thead>
                     <tbody id="rankingList">
                         <!-- 랭킹 데이터는 JavaScript로 동적으로 채워집니다 -->
+                         <tr>
+                            <td></td>
+                            <td>가나다</td>
+                            <td>00.00초</td>
+                            <td>00번</td>
+                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
 
+    <div class="popup" style="display: none;">
+        <div class="inner-popup">
+            <div class="content">
+                <p class="popup-rank">0번째 완료!</p>
+                <p class="popup-second">00.00초</p>
+                <button class="popupClick">확인</button>
+            </div>
+        </div>
+    </div>
+    
     <script>
         const sentences = [
         "우리가 사도행전 7장의 스데반처럼 성경 전체를 틀리지 않게, 치우치지 않게, 선을 넘지 않고,", 
@@ -420,6 +217,7 @@
             // 이름 넣었는지 확인
             if(checkFlag) {
                 // nothing to do.
+                document.cla
             } else {
                 alert("이름을 입력해 주세요");
                 document.getElementById('userName').focus();
@@ -468,9 +266,10 @@
             let name = document.getElementById('userName').value;
             if (arr.includes(name)) {
                 // 이름이 있을 때
-                $("#userName").css("background-color", "#9f9f9f");
+                $("#userClick").css("background-color", "#8f8f8f");
                 document.getElementById('userName').disabled = true;
                 checkFlag = true;
+                document.getElementById('whiteBox').classList.remove('afterbox');
                 startTime = new Date(); // 타자 연습 시작 시간 기록
                 document.getElementById('userInput').focus();
             } else {
