@@ -24,5 +24,15 @@ public class UserServiceImpl implements UserService {
     public Integer insertUserTime(User input) {
         return userMapper.insertUserTime(input);
     }
+
+	@Override
+	public Integer selectCompletionCountByUser(User user) {
+		return userMapper.selectCompletionCountByUser(user);
+	}
+
+	@Override
+	public Integer selectCheckName(User user) {
+		return userMapper.selectCheckName(user);
+	}
     
 }

@@ -43,11 +43,27 @@ public class HelloController {
         input.setName(user.getName());
         input.setCompletionTime(user.getCompletionTime());
 
-        System.out.println("name ::> " + user.getName());
-        System.out.println("time ::> " + user.getCompletionTime());
-
         Integer cnt = userService.insertUserTime(input);
         return cnt;
+    }
+    
+    @RequestMapping("/completion")
+    @ResponseBody
+    public Integer selectCompletionCountByUser(User user) {
+    	User input = new User();
+    	input.setName("신현진");
+        //input.setName(user.getName());
+        
+        Integer completionCount = userService.selectCompletionCountByUser(input);
+        return completionCount;
+    }
+    
+    @RequestMapping("/checkName")
+    @ResponseBody
+    public Integer selectCheckName(User user) {
+    	user.setName("신현진");
+    	Integer checkNameCnt = userService.selectCheckName(user);
+    	return checkNameCnt;
     }
     
     

@@ -12,4 +12,8 @@ public interface UserMapper {
     List<User> getUserList();
 
     Integer insertUserTime(User input);
+
+	Integer selectCompletionCountByUser(User user);
+
+	Integer selectCheckName(User user);
 }

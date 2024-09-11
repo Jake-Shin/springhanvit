@@ -4,7 +4,7 @@
 <mapper namespace="com.hanvit.hancom.Dao.UserMapper">
   <select id="getUserList" resultType="com.hanvit.hancom.Dto.User">
     SELECT
-        name, MIN(COMPLETIONTIME) completionTime, create_datetime 
+        name, MIN(COMPLETIONTIME) completionTime, create_datetime, count(name) completionCount 
     FROM
         HANCOM
     GROUP BY
@@ -20,4 +20,22 @@
         VALUES
             (#{name}, #{completionTime})
   </insert>
+  
+  <select id="selectCompletionCountByUser" parameterType="com.hanvit.hancom.Dto.User" resultType="Integer">
+  	select
+		count(name) completionCount
+	from
+		hancom h 
+	where 
+		name = #{name}
+  </select>
+  
+  <select id="selectCheckName" parameterType="com.hanvit.hancom.Dto.User" resultType="Integer">
+  	select 
+		count(*)
+	from
+		user
+	where 
+		name = #{name}
+  </select>
 </mapper>
