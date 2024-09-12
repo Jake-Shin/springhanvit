@@ -51,8 +51,8 @@ public class HelloController {
     @ResponseBody
     public Integer selectCompletionCountByUser(User user) {
     	User input = new User();
-    	input.setName("신현진");
-        //input.setName(user.getName());
+    	//input.setName("신현진");
+        input.setName(user.getName());
         
         Integer completionCount = userService.selectCompletionCountByUser(input);
         return completionCount;
@@ -61,7 +61,7 @@ public class HelloController {
     @RequestMapping("/checkName")
     @ResponseBody
     public Integer selectCheckName(User user) {
-    	user.setName("신현진");
+    	//user.setName("신현진");
     	Integer checkNameCnt = userService.selectCheckName(user);
     	return checkNameCnt;
     }

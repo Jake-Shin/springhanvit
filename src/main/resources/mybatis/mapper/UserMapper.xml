@@ -10,8 +10,8 @@
     GROUP BY
         name
     ORDER BY 
-        CAST(COMPLETIONTIME AS FLOAT) ASC
-    LIMIT 0,5
+        COMPLETIONTIME asc, completionCount desc, create_datetime asc
+    LIMIT 0,10
   </select>
 
   <insert id="insertUserTime" parameterType="com.hanvit.hancom.Dto.User">
