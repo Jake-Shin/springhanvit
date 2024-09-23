@@ -10,7 +10,7 @@
     GROUP BY
         name
     ORDER BY 
-        COMPLETIONTIME asc, completionCount desc, create_datetime asc
+        completionCount desc, COMPLETIONTIME asc, create_datetime asc
     LIMIT 0,10
   </select>
 
