@@ -46,6 +46,10 @@ button {font-size:16px; font-weight: 400; padding: 8px 20px; background-color: #
 .progress-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; color: #FFFFFF;}
 
 /* 랭킹 */
+.medal{width:24px; height:24px; border-radius: 100%; content: '';}
+.gold{background:#D5A11E}
+.silver{background:#A3A3A3}
+.copper{background:#CD7F32}
 .ranking {margin-top:60px; box-shadow: 0px 4px 4px -3px #00000040;}
 .ranking-table { width:100%; border-spacing: 0px; border-radius: 8px; background:#fff}
 .ranking-table thead tr th {font-size:18px; color:#000; padding:17px 10px; font-weight: 400; border-bottom:1px solid #ebebeb;}
