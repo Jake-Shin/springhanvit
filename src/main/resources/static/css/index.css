@@ -46,7 +46,7 @@ button {font-size:16px; font-weight: 400; padding: 8px 20px; background-color: #
 .progress-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; color: #FFFFFF;}
 
 /* 랭킹 */
-.medal{width:24px; height:24px; border-radius: 100%; content: '';}
+.medal{width:24px; height:24px; display: inline-block; border-radius: 100%; content: '';}
 .gold{background:#D5A11E}
 .silver{background:#A3A3A3}
 .copper{background:#CD7F32}
